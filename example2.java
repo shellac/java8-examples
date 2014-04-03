@@ -32,6 +32,4 @@ public class example2 {
 
 		time(e);
 	}
-
-	public static void printHello() { out.println("hello"); }
 }

@@ -30,10 +30,8 @@ public class example3 {
 		//	}
 		//);
 
-		//time(example3::powerTwoOne);
 
 		//time(a -> (a > 3) ? val * a : val + a);
 	}
 
-	public static double powerTwoOne(double a) { return Math.pow(a, 2.1); }
 }

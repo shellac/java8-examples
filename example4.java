@@ -4,6 +4,10 @@ public class example4 {
 
 	interface Ugger {
 
+		static void og() {
+			out.println("Og!");
+		}
+
 		default void ug() {
 			out.println("Default ug!");
 		}
@@ -20,6 +24,8 @@ public class example4 {
 	}
 
 	public static void main(String... args) {
+
+		Bar.og();
 
 		new Bar().ug();
 
