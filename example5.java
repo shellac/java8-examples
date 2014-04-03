@@ -1,67 +1,49 @@
 import static java.lang.System.out;
-import static java.lang.System.nanoTime;
-import java.util.stream.IntStream;
+import java.util.*;
+import java.util.stream.*;
 
 public class example5 {
 
-	static double size = 2.0;
-	static int res = 200;
-	static int limit = 1000;
+	static class Person {
+		String name; Integer age;
+		Person(String name, Integer age) { this.name = name; this.age = age; }
+		String getName() { return name; }
+		Integer getAge() { return age; }
+		public String toString() { return name + " (" + age + ")"; }
+	}
 
 	public static void main(String... args) {
 
-		int dCount = 0;
-		for (int i = 0; i < res; i++) {
-			for (int j = 0; j < res; j++) {
-				Cplx num = pixelsToCplx(j, i);
-				if (in(num, limit)) { out.print("."); dCount++; }
-				else out.print(" ");
-			}
-			out.println();
-		}
+		List<Person> people = Arrays.asList(
+			new Person("Alice", 24),
+			new Person("Bob", 34),
+			new Person("Carol", 81),
+			new Person("Derek", 24),
+			new Person("Eve", 34),
+			new Person("Frank", 17)
+		);
 
-		long start = nanoTime();
-		long count = IntStream.range(0, res * res)//.parallel()
-			.mapToObj(z -> {
-				int i = z / res; 
-				int j = z % res;
-				return pixelsToCplx(i, j);
-			})
-			.filter(c -> in(c, limit))
-			.count();
+		List<String> over30 = people.stream()
+			.filter(p -> p.getAge() > 30)
+			.map(Person::getName)
+			.collect(Collectors.toList());
 
-		out.printf("Direct: %d, Stream: %d Took: %d\n", dCount, count, (nanoTime() - start) / 1000000);
-	}
+		out.println(over30);
 
-	static Cplx pixelsToCplx(int x, int y) {
-		return new Cplx(pixelToNumber(x), pixelToNumber(y));
-	}
+		Map<Integer, List<Person>> peopleOver30ByAge
+         = people.stream()
+         	.filter(p -> p.getAge() > 30)
+         	.collect(Collectors.groupingBy(Person::getAge));
 
-	static double pixelToNumber(int px) {
-		return 2.0 * (double) (px - res / 2) * size / (double) res;
-	}
+        out.println(peopleOver30ByAge);
 
-	static boolean in(Cplx start, int limit) {
-		Cplx current = start;
-		for (int i = 0; i < limit && current.magSq() < 4.0; i++) {
-			current = current.mul(current).add(start);
-		}
-		return current.magSq() < 4.0;
-	}
+        boolean allOver18 = people.stream().allMatch(p -> p.getAge() > 18);
 
-	static class Cplx {
+        out.println(allOver18);
 
-		final double x, y;
+        people.stream().map(Person::getAge).sorted().distinct()
+        	.forEach(age -> out.printf("- %d\n", age));
 
-		Cplx(double x, double y) { this.x = x; this.y = y; }
-
-		Cplx add(Cplx other) { return new Cplx(x + other.x, y + other.y); }
-
-		Cplx mul(Cplx other) {
-			return new Cplx(x * other.x - y * other.y, x * other.y + y * other.x);
-		}
-
-		double magSq() { return x * x + y * y; }
 	}
 
 }
