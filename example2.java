@@ -3,7 +3,7 @@ import static java.lang.System.nanoTime;
 
 public class example2 {
 	
-	//@FunctionalInterface
+	@FunctionalInterface
 	interface Executable { void exec(); }
 
 	public static void time(Executable e) {
@@ -14,19 +14,17 @@ public class example2 {
 
 	public static void main(String... args) {
 
-		final String message = "hello";
+		String message = "hello";
 
 		Executable e;
 
-		e = new Executable() {
+		/*e = new Executable() {
 
 			public void exec() { out.println(message); }
 
-		};
-
-		/*e = () -> {
-			out.println(message);
 		};*/
+
+		e = () -> { out.println(message); };
 
 		time(e);
 	}

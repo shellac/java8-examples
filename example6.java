@@ -6,7 +6,7 @@ public class example6 {
 
 	static double size = 2.0;
 	static int res = 200;
-	static int limit = 1000;
+	static int limit = 100000;
 
 	public static void main(String... args) {
 
@@ -21,17 +21,26 @@ public class example6 {
 		}
 
 		long start = nanoTime();
-		long count = IntStream.range(0, res * res)//.parallel()
+		long count = IntStream.range(0, res * res).parallel()
 			.mapToObj(z -> {
 				int i = z / res; 
 				int j = z % res;
 				return pixelsToCplx(i, j);
 			})
+			//.unordered()
 			.filter(c -> in(c, limit))
 			.count();
 
 		out.printf("Direct: %d, Stream: %d Took: %d\n", dCount, count, (nanoTime() - start) / 1000000);
 	}
+
+
+
+
+
+
+
+
 
 	static Cplx pixelsToCplx(int x, int y) {
 		return new Cplx(pixelToNumber(x), pixelToNumber(y));

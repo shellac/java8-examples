@@ -9,10 +9,17 @@ public class example9 {
 
 	public static void main(String... args) {
 		
-		out.println( findPerson(2).getFaculty().getOfficeAddress().getRoad() );
+		//out.println( findPerson(2).getFaculty().getOfficeAddress().getRoad() );
+		out.println(
+			findPerson(2)
+				.flatMap(Person::getFaculty)
+				.flatMap(Faculty::getOfficeAddress)
+				.flatMap(Address::getRoad)
+				.orElse("Bah")
+			);
 	}
 
-	static Person findPerson(long id) { return people.get(id); }
+	static Optional<Person> findPerson(long id) { return Optional.ofNullable(people.get(id)); }
 
 	static Faculty physics = new Faculty("PHYS", new Address("Tyndall Avenue"));
 	static Faculty economics = new Faculty("ECON", new Address("Priory Road"));
@@ -27,20 +34,20 @@ public class example9 {
 	static class Person {
 		long id; Faculty faculty;
 		Person(long id, Faculty faculty) { this.id = id; this.faculty = faculty; }
-		Faculty getFaculty() { return faculty; }
+		Optional<Faculty> getFaculty() { return Optional.ofNullable(faculty); }
 		long getId() { return id; }
 	}
 
 	static class Faculty {
 		String code; Address officeAddress;
 		Faculty(String code, Address officeAddress) { this.code = code; this.officeAddress = officeAddress; }
-		Address getOfficeAddress() { return officeAddress; }
+		Optional<Address> getOfficeAddress() { return Optional.ofNullable(officeAddress); }
 	}
 
 	static class Address {
 		String road;
 		Address(String road) { this.road = road; }
-		String getRoad() { return road; }
+		Optional<String> getRoad() { return Optional.ofNullable(road); }
 	}
 
 }

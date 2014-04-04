@@ -12,6 +12,9 @@ public class example4 {
 			out.println("Default ug!");
 		}
 
+		default boolean equals(Object other) {
+			return false;
+		}
 	}
 
 	static class Bar implements Ugger {

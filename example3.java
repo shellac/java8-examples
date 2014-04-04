@@ -18,17 +18,13 @@ public class example3 {
 
 		final double val = 2.1;
 
-		time(new Function() {
+		/*time(new Function() {
 
 			public double invoke(double a) { return Math.pow(a, val); }
 
-		});
+		});*/
 
-		//time(
-		//	(double a) -> { 
-		//		return Math.pow(a, val);
-		//	}
-		//);
+		time( a -> Math.pow(a, val) );
 
 
 		//time(a -> (a > 3) ? val * a : val + a);
