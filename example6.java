@@ -2,7 +2,7 @@ import static java.lang.System.out;
 import static java.lang.System.nanoTime;
 import java.util.stream.IntStream;
 
-public class example5 {
+public class example6 {
 
 	static double size = 2.0;
 	static int res = 200;
